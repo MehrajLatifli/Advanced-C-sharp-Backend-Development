@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorNet8", "Lesson1\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorNETFramework", "Lesson1\CalculatorNETFramework\CalculatorNETFramework.csproj", "{6A6E84A2-5165-4F0C-85CA-CECF6D2C73B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson2", "Lesson2", "{D727D8D7-8DB0-4291-B86F-AB3CFC3A51D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWebAPI", "Lesson2\ProductWebAPI\ProductWebAPI.csproj", "{4B46DF1B-C5BE-48D1-9B42-CC685E7EE254}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{6A6E84A2-5165-4F0C-85CA-CECF6D2C73B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A6E84A2-5165-4F0C-85CA-CECF6D2C73B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A6E84A2-5165-4F0C-85CA-CECF6D2C73B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B46DF1B-C5BE-48D1-9B42-CC685E7EE254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B46DF1B-C5BE-48D1-9B42-CC685E7EE254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B46DF1B-C5BE-48D1-9B42-CC685E7EE254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B46DF1B-C5BE-48D1-9B42-CC685E7EE254}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{44833E95-CD2C-4BDC-8577-E364EF821367} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{7DFA34CE-3D63-4C0A-BEE9-AD7A22837CE8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6A6E84A2-5165-4F0C-85CA-CECF6D2C73B6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4B46DF1B-C5BE-48D1-9B42-CC685E7EE254} = {D727D8D7-8DB0-4291-B86F-AB3CFC3A51D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA2C8A89-0A8C-402F-AD8F-1A0DD75E5455}
