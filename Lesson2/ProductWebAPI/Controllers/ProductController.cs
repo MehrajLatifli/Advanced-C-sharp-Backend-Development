@@ -15,6 +15,7 @@ namespace ProductWebAPI.Controllers
     {
         [MapToApiVersion(1)]
         [HttpGet("{productId}")]
+        [Obsolete("This API version is obsolete. Please use version 2.")]
         public IActionResult ProductsV1(int productId)
         {
 
