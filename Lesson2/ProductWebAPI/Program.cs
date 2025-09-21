@@ -1,75 +1,80 @@
-﻿
-
-using Asp.Versioning;
+﻿using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using ProductWebAPI.Middlewares;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+// API Versioning
 builder.Services.AddApiVersioning(options =>
 {
-    options.DefaultApiVersion = new ApiVersion(1);
-    options.ReportApiVersions = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0); 
     options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+
+
     options.ApiVersionReader = ApiVersionReader.Combine(
         new UrlSegmentApiVersionReader(),
         new HeaderApiVersionReader("X-Api-Version"));
 })
-.AddMvc() // This is needed for controllers
+.AddMvc()
 .AddApiExplorer(options =>
 {
-    options.GroupNameFormat = "'v'V";
+    options.GroupNameFormat = "'v'VVV"; 
     options.SubstituteApiVersionInUrl = true;
 });
 
 
+builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
+
+builder.Services.AddSwaggerGen(options =>
 {
 
-
-    // Route-based version filter
-    c.DocInclusionPredicate((docName, apiDesc) =>
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
-        if (!apiDesc.TryGetMethodInfo(out var methodInfo)) return false;
+        Version = "v1",
+        Title = "Product API V1",
+        Description = "API Version 1 - Deprecated"
+    });
 
-        var versions = methodInfo.DeclaringType!
-            .GetCustomAttributes(true)
-            .OfType<ApiVersionAttribute>()
-            .SelectMany(v => v.Versions);
-
-        return versions.Any(v => $"v{v.ToString()}" == docName);
+    options.SwaggerDoc("v2", new OpenApiInfo
+    {
+        Version = "v2",
+        Title = "Product API V2",
+        Description = "API Version 2 - Latest"
     });
 });
 
-
+// Middleware
 builder.Services.AddTransient<ExceptionMiddleware>();
-
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Swagger UI
 if (app.Environment.IsDevelopment())
 {
+    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(options =>
+    {
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.UseMiddleware<ExceptionMiddleware>();
-
-
 
 app.MapControllers();
 

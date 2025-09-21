@@ -23,7 +23,7 @@ namespace ProductWebAPI.Controllers
             {
                 throw new NotFoundException($"Product with id {productId} not found");
             }
-            if(FakeRepos.FakeRepos.Products.Any(i => i.Rating==0))
+            if(FakeRepos.FakeRepos.Products.Any(i => i.Id == productId && i.Rating==0))
             {
                 throw new BadRequestException("Some unknown exception");
             }
@@ -39,7 +39,7 @@ namespace ProductWebAPI.Controllers
             {
                 return NotFound(Result<Product>.Failure($"Product with id {productId} not found"));
             }
-            if (FakeRepos.FakeRepos.Products.Any(i => i.Rating == 0))
+            if (FakeRepos.FakeRepos.Products.Any(i => i.Id == productId && i.Rating == 0))
             {
                 return BadRequest(Result<Product>.Failure("Some unknown exception"));
             }
