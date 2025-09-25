@@ -1,0 +1,6 @@
+@HumanWebAPI_HostAddress = http://localhost:5298
+
+GET {{HumanWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
