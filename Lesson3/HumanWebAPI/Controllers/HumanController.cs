@@ -57,11 +57,11 @@ namespace HumanWebAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var product = FakeRepos.FakeRepos.Humans.FirstOrDefault(p => p.Id == id);
-            if (product == null)
+            var human = FakeRepos.FakeRepos.Humans.FirstOrDefault(p => p.Id == id);
+            if (human == null)
                 return NoContent(); 
 
-            FakeRepos.FakeRepos.Humans.Remove(product);
+            FakeRepos.FakeRepos.Humans.Remove(human);
             return NoContent();
         }
     }
