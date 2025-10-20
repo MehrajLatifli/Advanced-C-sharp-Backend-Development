@@ -7,11 +7,10 @@ namespace BookStore.Data.Entities
     public class Book
     {
         [Key]
-        [Column("id")]
         public int Id { get; set; }
-        [Column("name")]
         public string Name { get; set; }    
-        [Column("page_count")]
         public int PageCount { get; set; }
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
     }
 }

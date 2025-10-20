@@ -6,7 +6,8 @@ namespace BookStore.Models
 
     public static class BookDTOExtensions
     {
-        public static BookDTO ToDTO(this Book book) =>
-            new(book.Id, book.Name, book.PageCount);
+        public static BookDTO ToDTO(this Book book) => new(book.Id, book.Name, book.PageCount);
     }
+
+
 }

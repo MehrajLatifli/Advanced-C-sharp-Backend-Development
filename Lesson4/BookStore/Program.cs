@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 builder.Services.AddNpgsql<BookStoreContext>(builder.Configuration.GetConnectionString("BookStoreDatabase"));
 
@@ -28,6 +29,9 @@ if (builder.Configuration.GetValue<bool>("UseSwagger"))
         c.RoutePrefix = string.Empty; 
     });
 }
+
+
+
 
 app.UseHttpsRedirection();
 
