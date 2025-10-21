@@ -25,4 +25,4 @@ dotnet ef database update
 </br>
 </br>
 
-dotnet ef database update Initial
+dotnet ef database update 20251020074534_Initial => silməkS
