@@ -103,10 +103,10 @@ namespace BookStore.Services
             if (!string.IsNullOrEmpty(city))
                 query = query.Where(a => a.City.Contains(city));
 
-            // OrderBy əvvəl gəlməlidir
+         
             query = query.OrderBy(a => a.Id)
                          .Skip((currentPage - 1) * currentPageSize)
-                         .Take(currentPageSize + 1); // 1 əlavə götür
+                         .Take(currentPageSize + 1); 
 
             var authors = await query.ToListAsync();
 
