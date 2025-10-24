@@ -16,7 +16,10 @@ namespace BookStore.Data
         {
           
                 optionsBuilder.UseSnakeCaseNamingConvention();
-            
+                optionsBuilder.UseLazyLoadingProxies();
+                optionsBuilder.EnableSensitiveDataLogging();
+
+
         }
     }
 }

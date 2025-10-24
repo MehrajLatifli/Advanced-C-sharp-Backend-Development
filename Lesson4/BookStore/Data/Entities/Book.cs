@@ -11,6 +11,6 @@ namespace BookStore.Data.Entities
         public string Name { get; set; }    
         public int PageCount { get; set; }
         public int AuthorId { get; set; }
-        public Author Author { get; set; }
+        public virtual Author Author { get; set; }
     }
 }

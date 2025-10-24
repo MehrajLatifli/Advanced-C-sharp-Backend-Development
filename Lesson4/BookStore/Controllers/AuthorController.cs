@@ -1,4 +1,5 @@
-﻿using BookStore.Services;
+﻿using BookStore.Models;
+using BookStore.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,5 +31,41 @@ namespace BookStore.Controllers
             var authorBooks = await _authorService.GetAuthorsWithBookAsync();
             return Ok(authorBooks);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchAuthors(
+            int? id,
+            string? name,
+            string? surname,
+            string? address,
+            string? city,
+            int? page = 1,
+            int? pageSize = 2)
+        {
+            var (count, data) = await _authorService.SearchAuthors(id, name, surname, address, city, page, pageSize);
+            return Ok(new { count, data });
+        }
+
+        [HttpGet("search2")]
+        public async Task<IActionResult> SearchAuthors2(
+               int? id,
+               string? name,
+               string? surname,
+               string? address,
+               string? city,
+               int? page = 1,
+               int? pageSize = 2)
+        {
+            var (hasNext, hasPrev, data) = await _authorService.SearchAuthors2(id, name, surname, address, city, page, pageSize);
+
+            return Ok(new
+            {
+                hasNext,
+                hasPrev,
+                data
+            });
+        }
+
+
     }
 }
