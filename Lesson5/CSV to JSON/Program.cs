@@ -15,6 +15,7 @@
 
     public class Program
     {
+
         public static async Task Main()
         {
             var inputPath = Path.Combine(AppContext.BaseDirectory, "../../../data.csv");
@@ -47,6 +48,7 @@
 
         }
 
+
         private static async Task<List<Person>> ReadCsvAsync(string path)
         {
             using var reader = new StreamReader(path);
@@ -61,6 +63,7 @@
 
             return records;
         }
+
 
         private static async Task WriteJsonAsync(string path, List<Person> people)
         {
