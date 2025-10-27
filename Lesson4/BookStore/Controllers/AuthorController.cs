@@ -47,16 +47,9 @@ namespace BookStore.Controllers
         }
 
         [HttpGet("search2")]
-        public async Task<IActionResult> SearchAuthors2(
-               int? id,
-               string? name,
-               string? surname,
-               string? address,
-               string? city,
-               int? page = 1,
-               int? pageSize = 2)
+        public async Task<IActionResult> SearchAuthors2([FromQuery] AuthorSearchRequestDTO requestDTO)
         {
-            var (hasNext, hasPrev, data) = await _authorService.SearchAuthors2(id, name, surname, address, city, page, pageSize);
+            var (hasNext, hasPrev, data) = await _authorService.SearchAuthors2(requestDTO);
 
             return Ok(new
             {

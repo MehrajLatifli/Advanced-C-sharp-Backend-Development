@@ -2,6 +2,7 @@
 using BookStore.Data.Entities;
 using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace BookStore.Services
@@ -80,42 +81,69 @@ namespace BookStore.Services
             return (count, authors.Select(a => AuthorDTOExtensions.ToDTO(a)).ToList());
         }
 
-        public async Task<(bool hasNext, bool hasPrev, List<AuthorDTO> data)> SearchAuthors2(
-      int? id, string? name, string? surname, string? address, string? city, int? page, int? pageSize)
+        public async Task<(bool hasNext, bool hasPrev, List<AuthorDTO> data)> SearchAuthors2(AuthorSearchRequestDTO authorSearchRequestDTO)
         {
-            int currentPage = page ?? 1;
-            int currentPageSize = pageSize ?? 10;
 
             var query = context.Authors.AsQueryable();
 
-            if (id.HasValue)
-                query = query.Where(a => a.Id == id.Value);
+            if (authorSearchRequestDTO.Id.HasValue)
+                query = query.Where(a => a.Id == authorSearchRequestDTO.Id.Value);
 
-            if (!string.IsNullOrEmpty(name))
-                query = query.Where(a => a.FirstName.Contains(name));
+            if (!string.IsNullOrEmpty(authorSearchRequestDTO.FirstName))
+                query = query.Where(a => a.FirstName.Contains(authorSearchRequestDTO.FirstName));
 
-            if (!string.IsNullOrEmpty(surname))
-                query = query.Where(a => a.LastName.Contains(surname));
+            if (!string.IsNullOrEmpty(authorSearchRequestDTO.LastName))
+                query = query.Where(a => a.LastName.Contains(authorSearchRequestDTO.LastName));
 
-            if (!string.IsNullOrEmpty(address))
-                query = query.Where(a => a.Address.Contains(address));
+            if (!string.IsNullOrEmpty(authorSearchRequestDTO.Address))
+                query = query.Where(a => a.Address.Contains(authorSearchRequestDTO.Address));
 
-            if (!string.IsNullOrEmpty(city))
-                query = query.Where(a => a.City.Contains(city));
+            if (!string.IsNullOrEmpty(authorSearchRequestDTO.City))
+                query = query.Where(a => a.City.Contains(authorSearchRequestDTO.City));
 
-         
-            query = query.OrderBy(a => a.Id)
-                         .Skip((currentPage - 1) * currentPageSize)
-                         .Take(currentPageSize + 1); 
 
-            var authors = await query.ToListAsync();
+            //if (authorSearchRequestDTO.Sort == "name")
+            //{
+            //    query = query.OrderBy(a => a.FirstName);
+            //}
+            //else if (authorSearchRequestDTO.Sort == "-name")
+            //{
+            //    query = query.OrderByDescending(a => a.FirstName);
+            //}
 
-            bool hasPrev = currentPage > 1;
-            bool hasNext = authors.Count > currentPageSize;
 
-            var data = authors.Take(currentPageSize)
-                              .Select(a => AuthorDTOExtensions.ToDTO(a))
-                              .ToList();
+            if (!string.IsNullOrEmpty(authorSearchRequestDTO.Sort))
+            {
+
+                bool descending = authorSearchRequestDTO.Sort.StartsWith("-");
+                
+                string propertyName = descending
+                    ? authorSearchRequestDTO.Sort.Substring(1)
+                    : authorSearchRequestDTO.Sort;
+
+                propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
+
+
+                if (typeof(Author).GetProperty(propertyName) == null)
+                {
+                    propertyName = "Id";
+                }
+
+
+                query = descending
+                    ? query.OrderByDescending(a => EF.Property<object>(a, propertyName))
+                    : query.OrderBy(a => EF.Property<object>(a, propertyName));
+
+
+            }
+            else
+            {
+                query = query.OrderBy(a => a.Id);
+
+              
+            }
+
+            var (hasNext, hasPrev, data) = await PagingHelper.ApplyPagingAsync(query, authorSearchRequestDTO.Page, authorSearchRequestDTO.PageSize);
 
             return (hasNext, hasPrev, data);
         }
