@@ -32,7 +32,7 @@
             await File.WriteAllTextAsync(outputPath, jsonString);
 
 
-            Console.WriteLine("JSON faylı created:");
+            Console.WriteLine("JSON file created:");
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine(jsonString);
             Console.WriteLine("--------------------------------------------------");
