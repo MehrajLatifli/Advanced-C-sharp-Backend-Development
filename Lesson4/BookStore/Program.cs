@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Services.AddHealthChecks();
+
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +20,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddNpgsql<BookStoreContext>(builder.Configuration.GetConnectionString("BookStoreDatabase"));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (builder.Configuration.GetValue<bool>("UseSwagger"))
@@ -38,5 +42,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health");
+
 
 app.Run();
